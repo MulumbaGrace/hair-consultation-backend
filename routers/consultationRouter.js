@@ -11,4 +11,8 @@ router
   .get(consultationController.getConsultation)
   .delete(consultationController.deleteConsultation);
 
+router.get('/:consultationId', consultationController. getConsultation);
+router.delete('/:consultationId', consultationController.deleteConsultation);
+
+
 module.exports = router;

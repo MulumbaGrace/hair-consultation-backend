@@ -52,15 +52,30 @@ async function createConsultation(_req, res) {
 }
 
 
-async function deleteConsultation(_req, res) {
-  const { consultationId } = _req.params;
-  try {
-    const data = await knex("consultations").where("id", consultationId).del();
-    res.status(204).json(data);
-  } catch (err) {
-    res.status(400).send(`Error deleting consultation: ${err}`);
-  }
+// async function deleteConsultation(_req, res) {
+//   const { consultationId } = _req.params;
+//   try {
+//     const data = await knex("consultations").where("id", consultationId).del();
+//     res.status(204).json(data);
+//   } catch (err) {
+//     res.status(400).send(`Error deleting consultation: ${err}`);
+//   }
+// }
+
+async function deleteConsultation(req, res) {
+    const { consultationId } = req.params;
+    try {
+      const rowsAffected = await knex("consultations").where("id", consultationId).del();
+      if (rowsAffected) {
+        res.status(204).send();
+      } else {
+        res.status(404).send(`Consultation with ID ${consultationId} not found.`);
+      }
+    } catch (err) {
+      res.status(400).send(`Error deleting consultation: ${err.message}`);
+    }
 }
+  
 
 module.exports = {
   getConsultations,
